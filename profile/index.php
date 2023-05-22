@@ -31,7 +31,7 @@
     <div id="main-content" class="container allContent-section py-4">
         <div class="row">
             <div class="col-sm-3">
-                <div class="card">
+                <div class="card" style="background-color: #13C5DD;">
                     <i class="fa fa-th-large mb-2" style="font-size: 70px;"></i>
                     <h4 style="color:white;">Total Medicines</h4>
                     <h4 style="color:white;"><?php echo count($medicinesData) ?></h4>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-            <div class="card">
+                <div class="card" style="background-color: #13C5DD;">
                     <i class="fa fa-th mb-2" style="font-size: 70px;"></i>
                     <h4 style="color:white;">Total Images</h4>
                     <h4 style="color:white;"><?php echo count($imagesData) ?></h4>

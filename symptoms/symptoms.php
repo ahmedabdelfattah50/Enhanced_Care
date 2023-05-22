@@ -11,8 +11,25 @@
         <title>Symptoms Page</title>
         <link rel="stylesheet" href="symptoms.css" /> 
     </head>
-    <body>
-        <form action="action.php" method="post">
+    <body style='margin:0'>
+        <!-- nav -->
+        <nav style="background-color: #13C5DD; margin:0; padding: 10px">
+            <a class="navbar-brand" href="./index.php">
+                <img src="images/<?php echo ($_SESSION['gender'] == 1) ? 'male' : 'female' ?>.png" width="60" height="60" alt="profile">
+            </a>
+            <!-- <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul> -->
+            
+            <div class="user-cart" style='float: right; margin-top: 20px'> 
+                <a href="../profile/index.php" style="text-decoration:none;">
+                    <i class="fa fa-home" style="margin-right:15px; font-size:30px; color:#fff;" aria-hidden="true"></i>
+                </a>
+                <a href="../logout.php" style="text-decoration:none;">
+                    <i class="fa fa-sign-in mr-5" style="margin-right:15px; font-size:30px; color:#fff;" aria-hidden="true"></i>
+                </a>
+
+            </div>  
+        </nav>
+        <form>
             <h2>Symptoms</h2>
             <p>Which of these Symptoms do you have?</p>
 
@@ -35,8 +52,7 @@
                  <input type="checkbox" name="symptom6" id="symptom6" value="Unexplained weight loss">
                  <label for="symptom6">Unexplained weight loss.</label>
 
-                 <button>Go to prediction page</button>
-           
+                 <button><a href="../home of prediction/upload ct/upload.php">Go to prediction page</a></button>
         </form>
     </body>
 </html>
