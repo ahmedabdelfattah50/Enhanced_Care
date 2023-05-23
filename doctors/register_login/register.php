@@ -1,13 +1,11 @@
 <?php
  session_start(); 
- include "db/connection.php";
+ include "../db/connection.php";
 // $conn = mysqli_connect("localhost","root","","colon_cancer_db");
 if(isset($_POST["submit"])){
   // $SSN           =$_POST['SSN'];
   $F_name        = $_POST['firstName'];
   $L_name        = $_POST['lastName'];
-  $BD            = $_POST['birthdate'];
-  $gender        = $_POST['gender'];
   $Email         = $_POST['email'];
   $PhoneNumber   = $_POST['phoneNumber'];
   $Address       = $_POST['address'];
@@ -18,29 +16,24 @@ if(isset($_POST["submit"])){
   if($phoneNumLength == 11){
     if($Password == $ConfirmPassword){ 
       $Password = password_hash($Password, PASSWORD_DEFAULT);    // encreapted password
-      $sql = "INSERT INTO `patient`(`F_name`,`L_name`,`Birthdate`,`Gender`,`Phone`,`Password`,`E_mail`,`Adress`) values ('$F_name','$L_name','$BD','$gender','$PhoneNumber','$Password','$Email','$Address')";
-      // $sql = "INSERT INTO `data`(`Image_name`, `Image`, `Patient_id`) VALUES ('$img_name','$new_img_name',1)";
+      $sql = "INSERT INTO `doctor`(`F_name`,`L_name`,`E_mail`,`Password`,`Phone`,`Address`) values ('$F_name','$L_name ','$Email','$Password','$PhoneNumber','$Address')";
       mysqli_query($conn, $sql);
 
-      $sqlCreatedPatient = "SELECT * from patient where E_mail = '".$Email."'";
-      $resOfPatient = mysqli_query($conn,  $sqlCreatedPatient);
-      $patientData = mysqli_fetch_assoc($resOfPatient);
-      print_r($patientData);
-      if($patientData) {
-        $hash = $patientData['Password'];
-        if(mysqli_num_rows($resOfPatient) > 0){
+      $sqlCreatedDoctor = "SELECT * from doctor where E_mail = '".$Email."'";
+      $resOfDoctor = mysqli_query($conn,  $sqlCreatedDoctor);
+      $doctorData = mysqli_fetch_assoc($resOfDoctor);
+      print_r($doctorData);
+      if($doctorData) {
+        $hash = $doctorData['Password'];
+        if(mysqli_num_rows($resOfDoctor) > 0){
           if (password_verify($_POST['password'], $hash)) {
-            $_SESSION['id'] = $patientData['id'];
+            $_SESSION['id'] = $doctorData['id'];
             $_SESSION['email'] = $Email;
             $_SESSION['first_name'] = $F_name;
             $_SESSION['last_name'] = $L_name;
-            $_SESSION['birth_date'] = $BD;
-            $_SESSION['gender'] = $gender;
             $_SESSION['phone'] = $PhoneNumber;
             $_SESSION['adress'] = $Address;
-            $_SESSION['Doctor_id'] = $patientData['Doctor_id'];
-            $_SESSION['Prediction_id'] = $patientData['Prediction_id'];
-            header("Location:symptoms/symptoms.php");
+            header("Location:../profile/index.php");
           } else {
             echo "<script>alert('Invalid Patient.')</script>";
           }
@@ -63,7 +56,7 @@ if(isset($_POST["submit"])){
   <head>
   
     <meta charset="utf-8" />
-    <title>Registration Form</title>
+    <title>Doctor Registration Form</title>
     <meta name="viewport" content="width=device-width,
       initial-scale=1.0"/>
     <link rel="stylesheet" href="style.css" />
@@ -72,7 +65,7 @@ if(isset($_POST["submit"])){
   <body>
 
     <div class="container registerPage">
-      <h1 class="title">Registration</h1>
+      <h1 class="title">Doctor Registration</h1>
       <form action="", method="POST">
         <div class="user-info">
           <!-- <div class="user-input">
@@ -95,24 +88,6 @@ if(isset($_POST["submit"])){
                     id="lastName"
                     name="lastName"
                     placeholder="Enter Last Name" required/>
-          </div>
-          <div class="user-input">
-            <label for="">Birth Date</label>
-            <input type="DATE"
-                    id="birthdate"
-                    name="birthdate"
-                    placeholder="Enter birthdate" required/>
-          </div>
-          <div class="user-input">
-            <label for="gender">Gender</label>
-            <select id="gender" name="gender" required>
-              <option value="">Select Your Gender</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-            </select>
-            <!-- <input type="text"
-                    id="gender"
-                    name="gender" required/> -->
           </div>
           <div class="user-input">
             <label for="email">Email</label>

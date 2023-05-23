@@ -1,4 +1,6 @@
-
+<?php
+  include_once "db/connection.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,17 +23,29 @@
      src: url(./fonts/Exo2.0-Medium.otf);
    }
 
+   body {
+    background-image: url(IMG-20221217-WA0033.jpg);
+     background-size: cover;
+   }
+
    
    .main{
-     width: 100%;
-     height: 100vh;
-     display: flex;
+     padding: 50px 0;
+   }
+
+   .main h2 {
+    margin-bottom: 15px;
+    color: #fff;
+    text-align: center;
+   }
+
+   .main .totalDoctors {
+    display: flex;
      justify-content: center;
      align-items: center;
-     background-image: url(IMG-20221217-WA0033.jpg);
-     background-size: cover;
-  
+     flex-wrap: wrap;
    }
+
    .profile-card{
      position: relative;
      font-family: sans-serif;
@@ -42,7 +56,7 @@
      border-radius: 50%;
      box-shadow: 0 0 22px #289c8e;
      transition: .6s;
-     margin: 0 25px;
+     margin: 10px 25px;
    }
    .profile-card:hover{
      border-radius: 10px;
@@ -111,37 +125,37 @@
 
 <body>
  <div class="container">
-    <div class="main">
+   <div class="main">
+      <h2>Our Doctors</h2>
+      <div class="totalDoctors">
+      <?php
+        $sql = "SELECT * from doctor";
+        $res = mysqli_query($conn,  $sql);
+        $doctorsData = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+        if($doctorsData){
+        foreach($doctorsData as $doctorIndex => $doctorData){ 
+      ?>
+        
         <div class="profile-card">
             <div class="img">
                 <img src="WhatsApp Image 2022-12-18 at 2.20.17 PM.jpeg">
             </div>
             <div class="caption">
-                <h3>دكتور عبدالحليم محمود </h3>
+                <h3><?php echo $doctorData['F_name'] . ' ' . $doctorData['L_name'] ?></h3>
                 <p>استشارى اورام</p>
-                <p><button class="button" onclick="location.href='info doc 1/index.html'">Contact</button></p>
+                <p><button class="button" onclick="location.href='info doc 1/index.php?id=<?php echo $doctorData['id'] ?>'">Contact</button></p>
             </div>
         </div>
-        <div class="profile-card">
-            <div class="img">
-                <img src="WhatsApp Image 2022-12-18 at 5.57.14 PM.jpeg">
-            </div>
-            <div class="caption">
-                <h3>دكتوراحمد الخطيب </h3>
-                <p>استشارى جراحه اورام الجهاز الهضمى </p>
-                <p><button class="button" onclick="location.href='info doc 2/index.html'">Contact</button></p>
-            </div>
-        </div>
-        <div class="profile-card">
-            <div class="img">
-                <img src="WhatsApp Image 2022-12-18 at 5.22.31 PM.jpeg">
-            </div>
-            <div class="caption">
-                <h3>دكتور احمد وهدان </h3>
-                <p>متخصص جراحه اورام القولون</p>
-                <p><button class="button" onclick="location.href='info doc 3/index.html'">Contact</button></p>
-            </div>
-        </div>
+
+        <?php 
+        }
+      } else { ?>
+        <p class='alert alert-danger'>No Data Founded</p>
+      <?php
+        }
+      ?>
+    </div>
     </div>
   </div>
 </body>
