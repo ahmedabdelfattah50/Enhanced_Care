@@ -1,5 +1,6 @@
 <?php
  session_start(); 
+ if(!isset($_SESSION['doctor'])){
  include "../db/connection.php";
 // $conn = mysqli_connect("localhost","root","","colon_cancer_db");
 if(isset($_POST["submit"])){
@@ -33,6 +34,7 @@ if(isset($_POST["submit"])){
             $_SESSION['last_name'] = $L_name;
             $_SESSION['phone'] = $PhoneNumber;
             $_SESSION['adress'] = $Address;
+            $_SESSION['doctor'] = 'doctor';
             header("Location:../profile/index.php");
           } else {
             echo "<script>alert('Invalid Patient.')</script>";
@@ -135,3 +137,8 @@ if(isset($_POST["submit"])){
     </div>
   </body>
 </html>
+<?php 
+  } else {
+    header("Location:../profile/index.php");
+  }
+?>

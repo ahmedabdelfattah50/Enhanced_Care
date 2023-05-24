@@ -1,5 +1,6 @@
 <?php
  session_start(); 
+ if(!isset($_SESSION['gender'])){
  include "db/connection.php";
  if(isset($_GET['page'])){ 
   $pageName = $_GET['page'];
@@ -188,3 +189,8 @@ if(isset($_POST["submit"])){
     </div>
   </body>
 </html>
+<?php 
+  } else {
+    header("Location:symptoms/symptoms.php");
+  }
+?>

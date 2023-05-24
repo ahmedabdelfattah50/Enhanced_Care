@@ -1,5 +1,6 @@
 <?php      
     session_start(); 
+    if(!isset($_SESSION['doctor'])){
     include "../db/connection.php";
     
     if(isset($_POST["submit"])){
@@ -18,6 +19,7 @@
               $_SESSION['last_name'] = $doctorData['L_name'];
               $_SESSION['phone'] = $doctorData['Phone'];
               $_SESSION['adress'] = $doctorData['Adress'];
+              $_SESSION['doctor'] = 'doctor';
               
               header("Location:../profile/index.php");
             } else {
@@ -76,3 +78,8 @@
     </div>
   </body>
 </html>
+<?php 
+  } else {
+    header("Location:../profile/index.php");
+  }
+?>
