@@ -1,6 +1,9 @@
 <?php      
     session_start(); 
     include "db/connection.php";
+    if(isset($_GET['page'])){ 
+      $pageName = $_GET['page'];
+    }
     //  $conn=mysqli_connect('localhost', 'root', '', 'colon_cancer_db');
     
     if(isset($_POST["submit"])){
@@ -30,7 +33,13 @@
               $_SESSION['Doctor_id'] = $patientData['Doctor_id'];
               $_SESSION['Prediction_id'] = $patientData['Prediction_id'];
               
-              header("Location:symptoms/symptoms.php");
+              if(isset($pageName)){ 
+                if($pageName == 'upload_form'){ 
+                  header("Location:upload_form.php");
+                }
+              } else {
+                header("Location:symptoms/symptoms.php");
+              }
             } else {
               $message["error"] = 'Invalid password';
             }
@@ -54,7 +63,7 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="title">Login</h1>
+      <h1 class="title">Patient Login</h1>
       <form action="<?php $_SERVER['PHP_SELF']?>", method="POST">
         <?php
         if(isset($message["error"])){ ?>
@@ -82,7 +91,16 @@
         <div class="submit-btn">
           <input type="submit" name="submit" value="Login" class="submit">
         </div>
-        <p class="styling">don't have an account? <a href="register.php">register now!</a></p>
+        <?php 
+          if(isset($pageName)){ ?>
+              <p class="styling">don't have an account? <a href="register.php?page=<?php echo $pageName ?>">register now!</a></p>
+        <?php
+          } else { ?>
+            <p class="styling">don't have an account? <a href="register.php">register now!</a></p>
+        <?php
+          }
+        ?>
+        
       </form>
     </div>
   </body>

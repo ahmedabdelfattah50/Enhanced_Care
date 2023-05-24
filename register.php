@@ -1,6 +1,9 @@
 <?php
  session_start(); 
  include "db/connection.php";
+ if(isset($_GET['page'])){ 
+  $pageName = $_GET['page'];
+}
 // $conn = mysqli_connect("localhost","root","","colon_cancer_db");
 if(isset($_POST["submit"])){
   // $SSN           =$_POST['SSN'];
@@ -11,6 +14,7 @@ if(isset($_POST["submit"])){
   $Email         = $_POST['email'];
   $PhoneNumber   = $_POST['phoneNumber'];
   $Address       = $_POST['address'];
+  $Doctor_id     = $_POST['Doctor_id'];
   $Password      = $_POST['password'];
   $ConfirmPassword = $_POST['confirmPassword'];
 
@@ -18,7 +22,7 @@ if(isset($_POST["submit"])){
   if($phoneNumLength == 11){
     if($Password == $ConfirmPassword){ 
       $Password = password_hash($Password, PASSWORD_DEFAULT);    // encreapted password
-      $sql = "INSERT INTO `patient`(`F_name`,`L_name`,`Birthdate`,`Gender`,`Phone`,`Password`,`E_mail`,`Adress`) values ('$F_name','$L_name','$BD','$gender','$PhoneNumber','$Password','$Email','$Address')";
+      $sql = "INSERT INTO `patient`(`F_name`,`L_name`,`Birthdate`,`Gender`,`Phone`,`Password`,`E_mail`,`Adress`, `Doctor_id`) values ('$F_name','$L_name','$BD','$gender','$PhoneNumber','$Password','$Email','$Address', '$Doctor_id')";
       // $sql = "INSERT INTO `data`(`Image_name`, `Image`, `Patient_id`) VALUES ('$img_name','$new_img_name',1)";
       mysqli_query($conn, $sql);
 
@@ -40,7 +44,13 @@ if(isset($_POST["submit"])){
             $_SESSION['adress'] = $Address;
             $_SESSION['Doctor_id'] = $patientData['Doctor_id'];
             $_SESSION['Prediction_id'] = $patientData['Prediction_id'];
-            header("Location:symptoms/symptoms.php");
+            if(isset($pageName)){ 
+              if($pageName == 'upload_form'){ 
+                header("Location:upload_form.php");
+              }
+            } else {
+              header("Location:symptoms/symptoms.php");
+            }
           } else {
             echo "<script>alert('Invalid Patient.')</script>";
           }
@@ -72,7 +82,7 @@ if(isset($_POST["submit"])){
   <body>
 
     <div class="container registerPage">
-      <h1 class="title">Registration</h1>
+      <h1 class="title">Patient Registration</h1>
       <form action="", method="POST">
         <div class="user-info">
           <!-- <div class="user-input">
@@ -110,9 +120,6 @@ if(isset($_POST["submit"])){
               <option value="1">Male</option>
               <option value="2">Female</option>
             </select>
-            <!-- <input type="text"
-                    id="gender"
-                    name="gender" required/> -->
           </div>
           <div class="user-input">
             <label for="email">Email</label>
@@ -128,7 +135,6 @@ if(isset($_POST["submit"])){
                     name="phoneNumber"
                     placeholder="Enter Phone Number" required/>
           </div>
-          
           <div class="user-input">
             <label for="password">Password</label>
             <input type="password"
@@ -150,6 +156,28 @@ if(isset($_POST["submit"])){
                     id="address"
                     name="address"
                     placeholder="Enter your Address" required/> -->
+          </div>
+          <div class="user-input" style='width: 105%; margin: 10px 0 0 -28px'>
+            <label for="gender">Select Your Doctor</label>
+            <select id="gender" name="Doctor_id" required>
+              <option value="">Select Your Doctor</option>
+              <?php
+                $sql = "SELECT * from doctor";
+                $res = mysqli_query($conn,  $sql);
+                $doctorsData = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+                if($doctorsData){
+                foreach($doctorsData as $doctorIndex => $doctorData){ 
+              ?>
+              <option value="<?php echo $doctorData['id'] ?>"><?php echo $doctorData['F_name'] . ' ' . $doctorData['L_name'] ?></option>
+              <?php 
+                }
+              } else {?>
+              <option>No Data Founded</option>
+            <?php
+              }
+            ?>
+            </select>
           </div>
         </div>
         <div class="submit-btn">

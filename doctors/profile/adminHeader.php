@@ -18,7 +18,7 @@
             <i class="fa fa-home mr-5" style="font-size:30px; color:#fff;" aria-hidden="true"></i>
          </a>
          
-         <a href="../logout.php" style="text-decoration:none;">
+         <a href="logout.php" style="text-decoration:none;">
             <i class="fa fa-sign-in mr-5" style="font-size:30px; color:#fff;" aria-hidden="true"></i>
          </a>
 

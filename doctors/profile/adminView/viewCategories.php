@@ -32,7 +32,7 @@
         <th>No.</th>
         <th>Name</th>
         <th>Phone</th>
-        <th>All Predictions</th>
+        <!-- <th>All Predictions</th> -->
       </tr>
     </thead>
        
@@ -44,7 +44,7 @@
         <td><?php echo $patientIndex+1 ?></td>
         <td><?php echo $patientData['F_name'] . ' ' . $patientData['L_name'] ?></td>
         <td>0<?php echo $patientData['Phone'] ?></td>
-        <td><a class="btn btn-info" style="height:40px" href="patient_predictions.php?id=<?php echo $patientData['id'] ?>">Predictions</a></td>
+        <!-- <td><a class="btn btn-info" style="height:40px" href="patient_predictions.php?id=<?php echo $patientData['id'] ?>">Predictions</a></td> -->
       </tr>
       <?php 
         }
